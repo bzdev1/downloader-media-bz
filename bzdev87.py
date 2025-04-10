@@ -1,44 +1,76 @@
-import os import time import sys import subprocess
+import os import time import sys import subprocess import json from pathlib import Path
 
-Lokasi file lisensi rahasia
+Lokasi file lisensi dan log
 
-LICENSE_FILE = ".data_lc87.txt" VALID_LICENSES = []
+LICENSE_FILE = "licenses.txt" LOG_FILE = "users_log.txt" DATA_FILE = ".data_lc87.txt"
 
-Baca lisensi dari file tersembunyi
+Lisensi valid (RAHASIA)
 
-if os.path.exists(LICENSE_FILE): with open(LICENSE_FILE, "r") as f: VALID_LICENSES = [line.strip() for line in f if line.strip() and not line.startswith("#")] else: with open(LICENSE_FILE, "w") as f: f.write("# Valid Licenses\nDEV-BZ87-2025-ALFA\nPUB-ACCESS-2025\n") VALID_LICENSES = ["DEV-BZ87-2025-ALFA", "PUB-ACCESS-2025"]
+VALID_LICENSES = [ "LC87-X2VZ-9021-HIDENKEY", "LC87-PUB-2025-DEMO" ]
 
-Fungsi clear
+Batasan lisensi publik
 
-clear = lambda: os.system("clear")
+LIMIT_PUB = 3
 
-Cek folder download
+Fungsi validasi lisensi
 
-download_folder = os.path.expanduser("~/bzdownloader") os.makedirs(download_folder, exist_ok=True)
+def validasi_lisensi(): if not os.path.exists(LICENSE_FILE): print("[!] File lisensi tidak ditemukan.") return False with open(LICENSE_FILE) as f: license_key = f.read().strip() if license_key in VALID_LICENSES: if license_key == "LC87-PUB-2025-DEMO": return "PUB" return True return False
 
-Fungsi tampilan
+Fungsi untuk mencatat pengguna yang mengakses
 
-def banner(): print(""" ╭────────────────────────────────────────────────────────────────────╮ │                                                                    │ │ ██████  ███████ ███████ ██████  ███████ ██    ██ ███████ ██    ██  │ │ ██   ██ ██      ██      ██   ██ ██       ██  ██  ██       ██  ██   │ │ ██   ██ █████   █████   ██████  █████     ████   █████     ████    │ │ ██   ██ ██      ██      ██      ██         ██    ██         ██     │ │ ██████  ███████ ███████ ██      ███████    ██    ███████    ██     │ │                                                                    │ │ >>> bzdev87 Social Media Downloader - All in One <<<               │ ╰────────────────────────────────────────────────────────────────────╯""")
+def log_pengguna(): user = os.getenv("USER") or os.getenv("USERNAME") or "unknown" with open(LOG_FILE, "a") as f: f.write(f"{user} | {time.ctime()}\n")
 
-Fungsi lisensi
+Menu utama def
 
-def cek_lisensi(): clear() print("[!] Lisensi diperlukan untuk menggunakan tool ini.") lisensi = input("Masukkan lisensi Anda: ").strip() if lisensi in VALID_LICENSES: if lisensi.startswith("DEV-"): print("[+] Lisensi Developer valid. Akses penuh diberikan.") else: print("[+] Lisensi valid. Akses publik diberikan.") time.sleep(1) else: print("[X] Lisensi tidak valid!") print("Silakan hubungi Admin untuk mendapatkan lisensi:") print("WhatsApp: +62 878-2594-6251") sys.exit()
+def menu(): os.system("clear") print(""" ╭────────────────────────────────────────────────────────────────────╮ │                                                                    │ │ ██████  ███████ ███████ ██████  ███████ ██    ██ ███████ ██    ██  │ │ ██   ██ ██      ██      ██   ██ ██       ██  ██  ██       ██  ██   │ │ ██   ██ █████   █████   ██████  █████     ████   █████     ████    │ │ ██   ██ ██      ██      ██      ██         ██    ██         ██     │ │ ██████  ███████ ███████ ██      ███████    ██    ███████    ██     │ │                                                                    │ │ >>> bzdev87 Social Media Downloader - All in One <<<               │ ╰────────────────────────────────────────────────────────────────────╯ """) print(""" MENU UTAMA ┏━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓ ┃ No ┃ Aksi                              ┃ ┡━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩ │ 1  │ Download Media Sosial             │ │ 2  │ Buka Folder Download              │ │ 3  │ Info Developer                    │ │ 4  │ Bantuan / Cara Pakai              │ │ 5  │ Developer Mode (Lisensi Khusus)   │ │ 6  │ Keluar                            │ └────┴───────────────────────────────────┘ """) return input("Masukkan pilihan [1/2/3/4/5/6]: ")
 
-Menu utama
+Developer khusus
 
-def menu(): while True: clear() banner() print(""" MENU UTAMA ┏━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓ ┃ No ┃ Aksi                 ┃ ┡━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩ │ 1  │ Download Media       │ │ 2  │ Buka Folder Download │ │ 3  │ Info Developer       │ │ 4  │ Bantuan / Cara Pakai │ │ 5  │ Keluar               │ └────┴──────────────────────┘""") pilihan = input("Masukkan pilihan [1/2/3/4/5]: ").strip() if pilihan == "1": url = input("Masukkan URL Media: ").strip() print("\n⠏ Mendownload...") cmd = f"yt-dlp -o '{download_folder}/%(title)s.%(ext)s' {url}" os.system(cmd) input("\n[✓] Tekan ENTER untuk kembali ke menu...") elif pilihan == "2": print(f"\nFolder penyimpanan media:\n{download_folder}") input("\n[✓] Tekan ENTER untuk kembali ke menu...") elif pilihan == "3": print("\nDeveloper: @bzdev87") print("GitHub   : https://github.com/bzdev87") input("\n[✓] Tekan ENTER untuk kembali ke menu...") elif pilihan == "4": print(""" Cara Pakai:
+def developer_mode(): print("\n[+] Developer Mode AKTIF") print("[+] Lisensi: TERDAFTAR") print("[+] WA Developer: wa.me/6287825946251") print("[+] Daftar pengguna tersimpan di:", LOG_FILE) print("\n[+] Fitur:") print(" - Monitor Pengguna") print(" - Export data lisensi") print(" - Reset Batas Publik")
 
-1. Pilih menu 1 lalu masukkan URL video atau media.
+Fungsi utama
 
+if name == "main": status = validasi_lisensi()
 
-2. Hasil download otomatis tersimpan ke folder bzdownloader.
+if status == False:
+    print("[!] Lisensi tidak valid.")
+    print("[!] Hubungi WA untuk akses: wa.me/6287825946251")
+    sys.exit()
+elif status == "PUB":
+    # Batas publik
+    if not os.path.exists(DATA_FILE):
+        with open(DATA_FILE, "w") as f:
+            f.write("1")
+    else:
+        with open(DATA_FILE) as f:
+            count = int(f.read().strip())
+        if count >= LIMIT_PUB:
+            print("[!] Batas penggunaan publik tercapai.")
+            print("[!] Upgrade lisensi ke full access: wa.me/6287825946251")
+            sys.exit()
+        else:
+            with open(DATA_FILE, "w") as f:
+                f.write(str(count + 1))
 
+log_pengguna()
 
-3. Jika lisensi invalid, hubungi +62 878-2594-6251. """) input("\n[✓] Tekan ENTER untuk kembali ke menu...") elif pilihan == "5": print("\n[!] Keluar...") time.sleep(1) break else: print("[!] Pilihan tidak valid.") time.sleep(1)
-
-
-
-Eksekusi awal
-
-if name == "main": cek_lisensi() menu()
+while True:
+    pilihan = menu()
+    if pilihan == "1":
+        print("[>] Fitur download akan ditambahkan.")
+    elif pilihan == "2":
+        print("[>] Buka folder download...")
+        os.system("xdg-open bzdownloader")
+    elif pilihan == "3":
+        print("[>] Developer: github.com/bzdev87")
+    elif pilihan == "4":
+        print("[>] Cara pakai: Masukkan link media dari IG, TikTok, dll")
+    elif pilihan == "5":
+        developer_mode()
+    elif pilihan == "6":
+        print("[!] Keluar...")
+        break
+    else:
+        print("[!] Pilihan tidak valid.")
+    input("\nTekan ENTER untuk kembali ke menu...")
 
