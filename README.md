@@ -1,66 +1,76 @@
 bzdev87 - Social Media Downloader
 
-Versi: Final Release 2025
-Author: bzdev87
-Lisensi Developer WA: https://wa.me/6287825946251
-
-Deskripsi
-
-Downloader semua media sosial (Instagram, TikTok, Facebook, dll) tanpa API. Folder penyimpanan otomatis ke /sdcard/bzdownloader. Tampilan menu interaktif dengan lisensi untuk akses mode developer dan batasan download untuk pengguna gratis.
-
-Fitur
-
-Download video, gambar, musik, story, profil
-
-Dukungan semua URL media sosial via yt-dlp
-
-Otomatis buat folder /sdcard/bzdownloader
-
-Tampilan terminal interaktif pakai rich
-
-Developer mode (akses lisensi)
-
-Limit download untuk pengguna gratis
 
 
-Instalasi
+bzdev87 adalah script downloader sosial media serba bisa dengan tampilan keren, dukungan multi-platform, dan fitur anti-ribet. Dirancang untuk pengguna Termux Android, script ini memungkinkan kamu mengunduh konten dari Instagram, TikTok, YouTube, Facebook, dan lainnya—langsung ke penyimpanan internal dengan folder khusus.
 
-1. Jalankan Bash Installer
+Fitur Utama
 
+[x] Download video, gambar, musik, story, dan profil
+
+[x] Folder otomatis: /sdcard/bzdownloader
+
+[x] Tanpa API key atau login
+
+[x] Menu interaktif berbasis terminal hacker (Rich UI)
+
+[x] Cek lisensi developer untuk fitur premium
+
+[x] Limit 3x download untuk pengguna non-lisensi
+
+[x] Developer mode khusus bagi pemegang lisensi
+
+
+Screenshot Tampilan
+
+╭────────────────────────────────────────────────────────────────────╮
+│ ██████  ███████ ███████ ██████  ███████ ██   ██ ███████ ██   ██    │
+│ >>> bzdev87 Social Media Downloader - All in One <<<               │
+╰────────────────────────────────────────────────────────────────────╯
+
+Instalasi Otomatis
+
+pkg update && pkg install git -y
+git clone https://github.com/bzdev87/downloader-media-bz
+cd downloader-media-bz
 bash install.sh
-
-2. Atau manual:
-
-pkg update && pkg install python ffmpeg -y
-pip install yt-dlp rich
 python bzdev87.py
 
-Mode Developer
+Lisensi Developer
 
-Untuk akses penuh & fitur tambahan:
+Untuk menghapus limit download dan mengakses fitur developer:
 
-Minta lisensi ke WhatsApp: https://wa.me/6287825946251
+Hubungi WhatsApp: +62 878-2594-6251
 
-Masukkan kode saat diminta
+Masukkan lisensi: DEV-BZ87-2025-FULLACCESS
 
 
-Folder Output
+Buat file license.key di direktori script dengan isi:
 
-Media yang diunduh akan tersimpan di:
+bzdev87:DEV-BZ87-2025-FULLACCESS
 
-/sdcard/bzdownloader
+Dependencies
 
-Kontak
+Python 3
 
-Developer: @bzdev87
+yt-dlp
+
+ffmpeg
+
+termux-api (opsional untuk buka folder)
+
+rich
+
+
+Kontak Developer
+
+GitHub: @bzdev87
 
 WhatsApp: +62 878-2594-6251
-
-GitHub: github.com/bzdev87
 
 
 
 ---
 
-#MadeWithLove by bzdev87
+bzdev87 by @bzdev87 - All-in-one Terminal Downloader Tool
 
