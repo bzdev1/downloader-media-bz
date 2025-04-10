@@ -1,54 +1,104 @@
-bzdev87.py
+import os
+import time
+import subprocess
 
-import os import sys import time from rich import print from rich.console import Console from rich.table import Table from rich.prompt import Prompt from rich.progress import Progress
+DOWNLOAD_FOLDER = "/data/data/com.termux/files/home/bzdownloader"
+VALID_LICENSE_FILE = "valid_licenses.txt"
+LICENSE_KEY_FILE = "license_key.txt"
+WA_CONTACT = "+62 878-2594-6251"
 
-console = Console() DOWNLOAD_FOLDER = "/sdcard/bzdownloader" LICENSE_FILE = "license.key" MAX_DOWNLOADS_FREE = 3 user_downloads = 0
+def clear():
+    os.system("clear")
 
-Cek dan buat folder download
+def banner():
+    print("╭" + "─" * 68 + "╮")
+    print("│" + " " * 68 + "│")
+    print("│  ██████  ███████ ███████ ██████  ███████ ██    ██ ███████ ██    ██  │")
+    print("│  ██   ██ ██      ██      ██   ██ ██       ██  ██  ██       ██  ██   │")
+    print("│  ██   ██ █████   █████   ██████  █████     ████   █████     ████    │")
+    print("│  ██   ██ ██      ██      ██      ██         ██    ██         ██     │")
+    print("│  ██████  ███████ ███████ ██      ███████    ██    ███████    ██     │")
+    print("│                                                                    │")
+    print(f"│ >>> bzdev87 Social Media Downloader - All in One <<<               │")
+    print("╰" + "─" * 68 + "╯")
 
-os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
+def check_license():
+    if not os.path.exists(LICENSE_KEY_FILE):
+        print("\n[!] Lisensi belum ditemukan.")
+        input_key = input("Masukkan lisensi anda: ").strip()
+        if validate_license(input_key):
+            with open(LICENSE_KEY_FILE, "w") as f:
+                f.write(input_key)
+            print("[✓] Lisensi valid! Akses penuh diberikan.")
+            time.sleep(1)
+        else:
+            print("\n[x] Lisensi tidak valid.")
+            print(f"[!] Hubungi WA untuk dapatkan lisensi: {WA_CONTACT}")
+            exit()
+    else:
+        with open(LICENSE_KEY_FILE, "r") as f:
+            license_key = f.read().strip()
+            if not validate_license(license_key):
+                print("\n[x] Lisensi tidak valid atau kadaluarsa.")
+                print(f"[!] Hubungi WA: {WA_CONTACT}")
+                exit()
 
-Fungsi verifikasi lisensi
+def validate_license(key):
+    if not os.path.exists(VALID_LICENSE_FILE):
+        return False
+    with open(VALID_LICENSE_FILE, "r") as f:
+        return key in [line.strip() for line in f.readlines()]
 
-def check_license(): if not os.path.exists(LICENSE_FILE): with open(LICENSE_FILE, "w") as f: f.write("BZDEV-2025-001\nBZDEV-2025-002")
+def create_download_folder():
+    if not os.path.exists(DOWNLOAD_FOLDER):
+        os.makedirs(DOWNLOAD_FOLDER)
+        print(f"Folder dibuat: {DOWNLOAD_FOLDER}")
 
-user_license = Prompt.ask("[bold yellow]Masukkan kode lisensi untuk akses penuh[/bold yellow]")
-with open(LICENSE_FILE, "r") as f:
-    valid_keys = f.read().splitlines()
+def main_menu():
+    while True:
+        print("\n         MENU UTAMA")
+        print("┏━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓")
+        print("┃ No ┃ Aksi                 ┃")
+        print("┡━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩")
+        print("│ 1  │ Download Media       │")
+        print("│ 2  │ Buka Folder Download │")
+        print("│ 3  │ Info Developer       │")
+        print("│ 4  │ Bantuan / Cara Pakai │")
+        print("│ 5  │ Keluar               │")
+        print("└────┴──────────────────────┘")
 
-if user_license in valid_keys:
-    print("[bold green]\n✔ Lisensi valid. Developer mode aktif!\n")
-    return True
-else:
-    print("[bold red]\n✘ Lisensi tidak valid atau kosong.")
-    print("[bold cyan]Hubungi developer: https://wa.me/6287825946251[/bold cyan]\n")
-    return False
+        pilihan = input("Masukkan pilihan [1/2/3/4/5]: ").strip()
+        if pilihan == "1":
+            url = input("Masukkan URL Media: ").strip()
+            download_media(url)
+        elif pilihan == "2":
+            print(f"\nFolder penyimpanan media:\n{DOWNLOAD_FOLDER}")
+        elif pilihan == "3":
+            print(f"\nDeveloper: BzDev87\nGitHub: https://github.com/bzdev87")
+        elif pilihan == "4":
+            print("\n1. Salin link media dari TikTok, IG, YouTube, dll.")
+            print("2. Masukkan ke menu [1]")
+            print("3. File akan otomatis tersimpan di folder bzdownloader")
+        elif pilihan == "5":
+            print("Keluar...")
+            break
+        else:
+            print("Pilihan tidak tersedia!")
 
-Tampilan judul
+def download_media(url):
+    print("⠏ Mendownload...")
+    try:
+        subprocess.run(
+            ["yt-dlp", "-o", f"{DOWNLOAD_FOLDER}/%(title)s.%(ext)s", url],
+            check=True
+        )
+        print("[✓] Download selesai!")
+    except subprocess.CalledProcessError:
+        print("[x] Gagal download: URL tidak didukung atau kesalahan lainnya.")
 
-def show_banner(): os.system("clear") print(""" [bold green]╭────────────────────────────────────────────────────────────────────╮ │ ██████  ███████ ███████ ██████  ███████ ██    ██ ███████ ██    ██  │ │ ██   ██ ██      ██      ██   ██ ██       ██  ██  ██       ██  ██   │ │ ██   ██ █████   █████   ██████  █████     ████   █████     ████    │ │ ██   ██ ██      ██      ██      ██         ██    ██         ██     │ │ ██████  ███████ ███████ ██      ███████    ██    ███████    ██     │ │ >>> bzdev87 Social Media Downloader - All in One <<<               │ ╰────────────────────────────────────────────────────────────────────╯[/bold green] """)
-
-Menu utama
-
-def main_menu(is_developer=False): table = Table(title="[bold cyan]MENU UTAMA[/bold cyan]", show_lines=True) table.add_column("No", justify="center") table.add_column("Aksi") table.add_row("1", "Download Media") table.add_row("2", "Buka Folder Download") table.add_row("3", "Info Developer") table.add_row("4", "Bantuan / Cara Pakai") if is_developer: table.add_row("5", "[yellow]Developer Mode[/yellow]") table.add_row("6", "Keluar") else: table.add_row("5", "Keluar")
-
-console.print(table)
-pilihan = Prompt.ask("Masukkan pilihan", choices=["1", "2", "3", "4", "5", "6"] if is_developer else ["1", "2", "3", "4", "5"])
-handle_choice(pilihan, is_developer)
-
-Fungsi tiap menu
-
-def handle_choice(pilihan, is_developer): global user_downloads if pilihan == "1": if not is_developer and user_downloads >= MAX_DOWNLOADS_FREE: print("\n[bold red]✘ Batas download gratis telah tercapai![/bold red]") print("[bold cyan]Dapatkan lisensi: https://wa.me/6287825946251[/bold cyan]\n") input("Tekan Enter untuk kembali...") else: url = Prompt.ask("Masukkan URL Media") download_media(url) if not is_developer: user_downloads += 1 elif pilihan == "2": print(f"\nFolder penyimpanan media: [green]{DOWNLOAD_FOLDER}[/green]\n") elif pilihan == "3": print("\n[bold blue]Developer: bzonedev87[/bold blue]") print("GitHub: https://github.com/bzdev87") print("WhatsApp: https://wa.me/6287825946251\n") elif pilihan == "4": print("\n[bold yellow]Masukkan URL dari Instagram, TikTok, dll dan media akan diunduh ke folder bzdownloader.[/bold yellow]\n") elif pilihan == "5" and is_developer: print("\n[bold green]>>> Developer Mode aktif! <<<[/bold green]\n") os.system("ls -la") elif pilihan in ["5", "6"]: print("\n[bold cyan]Keluar...[/bold cyan]") sys.exit()
-
-input("\nTekan Enter untuk kembali ke menu...")
-show_banner()
-main_menu(is_developer)
-
-Fungsi download
-
-def download_media(url): print("\n[cyan]Mendownload...[/cyan]\n") with Progress() as progress: task = progress.add_task("[green]Mengunduh...", total=100) os.system(f"yt-dlp -o '{DOWNLOAD_FOLDER}/%(title)s.%(ext)s' {url}") progress.update(task, completed=100) print("\n[bold green]Selesai![/bold green]\n")
-
-Eksekusi
-
-if name == "main": show_banner() dev_mode = check_license() main_menu(dev_mode)
-
+if __name__ == "__main__":
+    clear()
+    banner()
+    check_license()
+    create_download_folder()
+    main_menu()
