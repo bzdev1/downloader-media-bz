@@ -3,7 +3,7 @@
   <b>All-in-One Tool | Tanpa API Key | Tampilan Keren | Full Termux Support</b>
 </p>
 
----
+
 
 ## Screenshot Tampilan
 
@@ -34,7 +34,7 @@ cd downloader-media-bz
 python bzdev87.py
 
 
----
+
 
 Tentang Lisensi
 
@@ -54,7 +54,7 @@ Lisensi tersimpan di file:
 (Jangan di-publish, hanya developer yang tahu isinya)
 
 
----
+
 
 Developer Info
 
@@ -66,6 +66,6 @@ WhatsApp Support: +62 878-2594-6251
 
 
 
----
+
 
 > Jangan lupa kasih bintang (⭐) jika kamu suka projek ini!
