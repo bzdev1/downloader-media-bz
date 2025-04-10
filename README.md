@@ -1,87 +1,71 @@
-# bzdev87 - Social Media Downloader All-in-One
-
-**bzdev87** adalah script Python powerful untuk mendownload media dari berbagai platform sosial media dengan tampilan ala hacker, fitur lengkap, dan mendukung sistem Android (Termux) & Linux.
-
-![Platform](https://img.shields.io/badge/Platform-Termux%20%7C%20Linux-green?style=flat-square)
-![Status](https://img.shields.io/badge/Status-Active-blue?style=flat-square)
-![License](https://img.shields.io/badge/License-Custom-orange?style=flat-square)
+<h1 align="center">bzdev87 - Social Media Downloader</h1>
+<p align="center">
+  <b>All-in-One Tool | Tanpa API Key | Tampilan Keren | Full Termux Support</b>
+</p>
 
 ---
 
-## Fitur Unggulan:
+## Screenshot Tampilan
 
-- Download dari berbagai media sosial: Instagram, TikTok, YouTube, Facebook, Twitter, dan lainnya.
-- Bisa download: Video, Gambar, Musik, Story, Reels, Profil, dll.
-- Otomatis simpan ke `/sdcard/bzdownloader` (internal storage Android).
-- Tidak butuh API Key.
-- Tampilan menu interaktif, seperti terminal hacker.
-- Validasi Lisensi Developer untuk akses fitur lanjutan.
-- Menu bantuan dan info developer langsung di script.
+╭────────────────────────────────────────────────────────────────────╮ │ ██████  ███████ ███████ ██████  ███████ ██    ██ ███████ ██    ██  │ │ ██   ██ ██      ██      ██   ██ ██       ██  ██  ██       ██  ██   │ │ ██   ██ █████   █████   ██████  █████     ████   █████     ████    │ │ ██   ██ ██      ██      ██      ██         ██    ██         ██     │ │ ██████  ███████ ███████ ██      ███████    ██    ███████    ██     │ ╰────────────────────────────────────────────────────────────────────╯
 
 ---
 
-## Instalasi di Termux / Linux
+## Fitur Utama
+
+- [x] **Download** dari TikTok, Instagram, YouTube, Facebook, dll
+- [x] **Story, Reels, Foto, Musik, Profil**
+- [x] Otomatis simpan ke folder `bzdownloader/`
+- [x] **Tanpa API Key**, full scraping
+- [x] Tampilan interaktif dan bergaya terminal hacker
+- [x] Support di **Termux Android & Linux**
+- [x] Sistem **Lisensi Developer & Publik**
+- [x] Lisensi rahasia tersimpan di `.data_lc87.txt`
+- [x] Jika lisensi salah → langsung diarahkan ke WhatsApp
+
+---
+
+## Cara Install (Termux / Linux)
 
 ```bash
-pkg update && pkg install git python -y
+pkg update && pkg install python git -y
 git clone https://github.com/bzdev87/downloader-media-bz
 cd downloader-media-bz
-bash install.sh
 python bzdev87.py
 
 
 ---
 
-Format Lisensi Developer
+Tentang Lisensi
 
-Akses penuh hanya diberikan bagi yang memiliki lisensi resmi.
+Aplikasi ini hanya dapat digunakan jika memasukkan lisensi valid:
 
-File lisensi berada di:
+Lisensi Publik: akses terbatas
 
-license.key
-
-Format:
-
-username:KODE-LISENSI
-
-Contoh:
-
-bzdev87:DEV-BZ87-2025-FULLACCESS
-
-Jika kamu belum memiliki lisensi, kamu akan diarahkan untuk menghubungi: WhatsApp Developer: Klik di sini
+Lisensi Developer: akses penuh & menu rahasia
 
 
----
+Jika tidak memiliki lisensi, hubungi WhatsApp developer: Klik untuk chat WhatsApp
 
-Kontak & Sosial Media
+Lisensi tersimpan di file:
 
-GitHub: https://github.com/bzdev87
+.data_lc87.txt
 
-WhatsApp: +62 878-2594-6251
-
-Telegram (Opsional): @bzdev87tools
-
+(Jangan di-publish, hanya developer yang tahu isinya)
 
 
 ---
 
-Tampilan Menu
+Developer Info
 
-╭────────────────────────────────────────────────────────────────────╮
-│ >>> bzdev87 Social Media Downloader - All in One <<<               │
-│                                                                    │
-│ 1. Download Media                                                  │
-│ 2. Buka Folder Download                                            │
-│ 3. Info Developer                                                  │
-│ 4. Bantuan / Cara Pakai                                            │
-│ 5. Keluar                                                          │
-╰────────────────────────────────────────────────────────────────────╯
+Author: @bzdev87
+
+Project: downloader-media-bz
+
+WhatsApp Support: +62 878-2594-6251
+
 
 
 ---
 
-Catatan
-
-> Proyek ini dibuat untuk pembelajaran dan tujuan personal. Tidak diperkenankan digunakan untuk aktivitas ilegal atau komersial tanpa izin resmi.
-
-
+> Jangan lupa kasih bintang (⭐) jika kamu suka projek ini!
