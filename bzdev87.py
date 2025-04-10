@@ -1,4 +1,7 @@
-import os import time import sys import subprocess import json from pathlib import Path
+import os
+import time
+import sys
+import subprocess
 
 Lokasi file lisensi dan log
 
