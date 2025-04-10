@@ -1,32 +1,44 @@
-#!/usr/bin/env python3
+import os import time import sys import subprocess
 
-bzdev87 - Social Media Downloader (All-in-One)
+Lokasi file lisensi rahasia
 
-import os import sys import time import socket from datetime import datetime from pathlib import Path
+LICENSE_FILE = ".data_lc87.txt" VALID_LICENSES = []
 
-try: from yt_dlp import YoutubeDL except ImportError: print("\n[!] Modul 'yt_dlp' belum terpasang. Menginstal...") os.system("pip install yt-dlp") from yt_dlp import YoutubeDL
+Baca lisensi dari file tersembunyi
 
-Konfigurasi Awal
+if os.path.exists(LICENSE_FILE): with open(LICENSE_FILE, "r") as f: VALID_LICENSES = [line.strip() for line in f if line.strip() and not line.startswith("#")] else: with open(LICENSE_FILE, "w") as f: f.write("# Valid Licenses\nDEV-BZ87-2025-ALFA\nPUB-ACCESS-2025\n") VALID_LICENSES = ["DEV-BZ87-2025-ALFA", "PUB-ACCESS-2025"]
 
-DOWNLOAD_DIR = str(Path.home()) + "/bzdownloader" LICENSE_FILE = "licenses.txt" LOG_FILE = "users_log.txt" DEVELOPER_WA = "+62 878-2594-6251"
+Fungsi clear
 
-Lisensi Valid (hanya contoh, kamu bisa tambah di licenses.txt)
+clear = lambda: os.system("clear")
 
-def load_valid_licenses(): if not os.path.exists(LICENSE_FILE): open(LICENSE_FILE, 'w').close() with open(LICENSE_FILE, 'r') as f: return [x.strip() for x in f.readlines() if x.strip() != '']
+Cek folder download
 
-def log_user(license_key): ip = socket.gethostbyname(socket.gethostname()) user = os.getenv("USER") or os.getenv("USERNAME") or "UnknownUser" now = datetime.now().strftime("%Y-%m-%d %H:%M:%S") with open(LOG_FILE, 'a') as f: f.write(f"[{now}] Nama: {user} | Lisensi: {license_key} | IP: {ip}\n")
+download_folder = os.path.expanduser("~/bzdownloader") os.makedirs(download_folder, exist_ok=True)
 
-def cek_lisensi(): print("\n[ Lisensi Diperlukan untuk Mengakses Script Ini ]") lisensi = input("Masukkan Lisensi Anda: ").strip() valid = load_valid_licenses() if lisensi in valid: log_user(lisensi) return True else: print(f"\n[!] Lisensi tidak valid atau kadaluarsa!") print(f"[!] Hubungi WA untuk lisensi baru: {DEVELOPER_WA}\n") return False
+Fungsi tampilan
 
-def show_banner(): os.system('clear') print(""" ╭────────────────────────────────────────────────────────────────────╮ │                                                                    │ │ ██████  ███████ ███████ ██████  ███████ ██    ██ ███████ ██    ██  │ │ ██   ██ ██      ██      ██   ██ ██       ██  ██  ██       ██  ██   │ │ ██   ██ █████   █████   ██████  █████     ████   █████     ████    │ │ ██   ██ ██      ██      ██      ██         ██    ██         ██     │ │ ██████  ███████ ███████ ██      ███████    ██    ███████    ██     │ │                                                                    │ │ >>> bzdev87 Social Media Downloader - All in One <<<               │ ╰────────────────────────────────────────────────────────────────────╯ """)
+def banner(): print(""" ╭────────────────────────────────────────────────────────────────────╮ │                                                                    │ │ ██████  ███████ ███████ ██████  ███████ ██    ██ ███████ ██    ██  │ │ ██   ██ ██      ██      ██   ██ ██       ██  ██  ██       ██  ██   │ │ ██   ██ █████   █████   ██████  █████     ████   █████     ████    │ │ ██   ██ ██      ██      ██      ██         ██    ██         ██     │ │ ██████  ███████ ███████ ██      ███████    ██    ███████    ██     │ │                                                                    │ │ >>> bzdev87 Social Media Downloader - All in One <<<               │ ╰────────────────────────────────────────────────────────────────────╯""")
 
-def menu(): while True: print(""" MENU UTAMA ┏━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓ ┃ No ┃ Aksi                           ┃ ┡━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩ │ 1  │ Download Media Sosial         │ │ 2  │ Buka Folder Download          │ │ 3  │ Info Developer                │ │ 4  │ Bantuan / Cara Pakai          │ │ 5  │ Menu Khusus Developer         │ │ 6  │ Keluar                        │ └────┴────────────────────────────────┘ ") pilihan = input("Masukkan pilihan [1-6]: ").strip() if pilihan == '1': url = input("Masukkan URL Media: ").strip() download_media(url) elif pilihan == '2': print(f"\nFolder penyimpanan: {DOWNLOAD_DIR}\n") elif pilihan == '3': print("\nDeveloper: bzdev87 (https://github.com/bzdev87)") print(f"Kontak WhatsApp: {DEVELOPER_WA}\n") elif pilihan == '4': print("\n[!] Cukup masukkan URL video/foto dari TikTok, IG, Facebook, dll.") print("Hasil akan otomatis tersimpan di folder bzdownloader.\n") elif pilihan == '5': show_developer_log() elif pilihan == '6': print("\nTerima kasih telah menggunakan bzdev87!") sys.exit() else: print("\n[!] Pilihan tidak valid.")
+Fungsi lisensi
 
-def show_developer_log(): if os.path.exists(LOG_FILE): print("\n[ Log Pengguna Aktif: ]\n") with open(LOG_FILE, 'r') as f: print(f.read()) else: print("\n[!] Belum ada pengguna terdaftar.\n")
+def cek_lisensi(): clear() print("[!] Lisensi diperlukan untuk menggunakan tool ini.") lisensi = input("Masukkan lisensi Anda: ").strip() if lisensi in VALID_LICENSES: if lisensi.startswith("DEV-"): print("[+] Lisensi Developer valid. Akses penuh diberikan.") else: print("[+] Lisensi valid. Akses publik diberikan.") time.sleep(1) else: print("[X] Lisensi tidak valid!") print("Silakan hubungi Admin untuk mendapatkan lisensi:") print("WhatsApp: +62 878-2594-6251") sys.exit()
 
-def download_media(url): print("\nMendownload...\n") ydl_opts = { 'outtmpl': f'{DOWNLOAD_DIR}/%(title)s.%(ext)s', 'quiet': False } try: with YoutubeDL(ydl_opts) as ydl: ydl.download([url]) except Exception as e: print(f"Gagal download: {e}")
+Menu utama
 
-def prepare_folder(): if not os.path.exists(DOWNLOAD_DIR): os.makedirs(DOWNLOAD_DIR) print(f"\nFolder dibuat: {DOWNLOAD_DIR}")
+def menu(): while True: clear() banner() print(""" MENU UTAMA ┏━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓ ┃ No ┃ Aksi                 ┃ ┡━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩ │ 1  │ Download Media       │ │ 2  │ Buka Folder Download │ │ 3  │ Info Developer       │ │ 4  │ Bantuan / Cara Pakai │ │ 5  │ Keluar               │ └────┴──────────────────────┘""") pilihan = input("Masukkan pilihan [1/2/3/4/5]: ").strip() if pilihan == "1": url = input("Masukkan URL Media: ").strip() print("\n⠏ Mendownload...") cmd = f"yt-dlp -o '{download_folder}/%(title)s.%(ext)s' {url}" os.system(cmd) input("\n[✓] Tekan ENTER untuk kembali ke menu...") elif pilihan == "2": print(f"\nFolder penyimpanan media:\n{download_folder}") input("\n[✓] Tekan ENTER untuk kembali ke menu...") elif pilihan == "3": print("\nDeveloper: @bzdev87") print("GitHub   : https://github.com/bzdev87") input("\n[✓] Tekan ENTER untuk kembali ke menu...") elif pilihan == "4": print(""" Cara Pakai:
 
-if name == 'main': prepare_folder() show_banner() if cek_lisensi(): menu()
+1. Pilih menu 1 lalu masukkan URL video atau media.
+
+
+2. Hasil download otomatis tersimpan ke folder bzdownloader.
+
+
+3. Jika lisensi invalid, hubungi +62 878-2594-6251. """) input("\n[✓] Tekan ENTER untuk kembali ke menu...") elif pilihan == "5": print("\n[!] Keluar...") time.sleep(1) break else: print("[!] Pilihan tidak valid.") time.sleep(1)
+
+
+
+Eksekusi awal
+
+if name == "main": cek_lisensi() menu()
 
