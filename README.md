@@ -1,5 +1,3 @@
----
-
 # bzdev87 - Social Media Downloader All-in-One
 
 **bzdev87** adalah script Python powerful untuk mendownload media dari berbagai platform sosial media dengan tampilan ala hacker, fitur lengkap, dan mendukung sistem Android (Termux) & Linux.
@@ -87,5 +85,3 @@ Catatan
 > Proyek ini dibuat untuk pembelajaran dan tujuan personal. Tidak diperkenankan digunakan untuk aktivitas ilegal atau komersial tanpa izin resmi.
 
 
-
----
