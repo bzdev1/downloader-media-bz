@@ -1,76 +1,91 @@
-bzdev87 - Social Media Downloader
+---
 
+# bzdev87 - Social Media Downloader All-in-One
 
+**bzdev87** adalah script Python powerful untuk mendownload media dari berbagai platform sosial media dengan tampilan ala hacker, fitur lengkap, dan mendukung sistem Android (Termux) & Linux.
 
-bzdev87 adalah script downloader sosial media serba bisa dengan tampilan keren, dukungan multi-platform, dan fitur anti-ribet. Dirancang untuk pengguna Termux Android, script ini memungkinkan kamu mengunduh konten dari Instagram, TikTok, YouTube, Facebook, dan lainnya—langsung ke penyimpanan internal dengan folder khusus.
+![Platform](https://img.shields.io/badge/Platform-Termux%20%7C%20Linux-green?style=flat-square)
+![Status](https://img.shields.io/badge/Status-Active-blue?style=flat-square)
+![License](https://img.shields.io/badge/License-Custom-orange?style=flat-square)
 
-Fitur Utama
+---
 
-[x] Download video, gambar, musik, story, dan profil
+## Fitur Unggulan:
 
-[x] Folder otomatis: /sdcard/bzdownloader
+- Download dari berbagai media sosial: Instagram, TikTok, YouTube, Facebook, Twitter, dan lainnya.
+- Bisa download: Video, Gambar, Musik, Story, Reels, Profil, dll.
+- Otomatis simpan ke `/sdcard/bzdownloader` (internal storage Android).
+- Tidak butuh API Key.
+- Tampilan menu interaktif, seperti terminal hacker.
+- Validasi Lisensi Developer untuk akses fitur lanjutan.
+- Menu bantuan dan info developer langsung di script.
 
-[x] Tanpa API key atau login
+---
 
-[x] Menu interaktif berbasis terminal hacker (Rich UI)
+## Instalasi di Termux / Linux
 
-[x] Cek lisensi developer untuk fitur premium
-
-[x] Limit 3x download untuk pengguna non-lisensi
-
-[x] Developer mode khusus bagi pemegang lisensi
-
-
-Screenshot Tampilan
-
-╭────────────────────────────────────────────────────────────────────╮
-│ ██████  ███████ ███████ ██████  ███████ ██   ██ ███████ ██   ██    │
-│ >>> bzdev87 Social Media Downloader - All in One <<<               │
-╰────────────────────────────────────────────────────────────────────╯
-
-Instalasi Otomatis
-
-pkg update && pkg install git -y
+```bash
+pkg update && pkg install git python -y
 git clone https://github.com/bzdev87/downloader-media-bz
 cd downloader-media-bz
 bash install.sh
 python bzdev87.py
 
-Lisensi Developer
 
-Untuk menghapus limit download dan mengakses fitur developer:
+---
 
-Hubungi WhatsApp: +62 878-2594-6251
+Format Lisensi Developer
 
-Masukkan lisensi: DEV-BZ87-2025-FULLACCESS
+Akses penuh hanya diberikan bagi yang memiliki lisensi resmi.
 
+File lisensi berada di:
 
-Buat file license.key di direktori script dengan isi:
+license.key
+
+Format:
+
+username:KODE-LISENSI
+
+Contoh:
 
 bzdev87:DEV-BZ87-2025-FULLACCESS
 
-Dependencies
-
-Python 3
-
-yt-dlp
-
-ffmpeg
-
-termux-api (opsional untuk buka folder)
-
-rich
+Jika kamu belum memiliki lisensi, kamu akan diarahkan untuk menghubungi: WhatsApp Developer: Klik di sini
 
 
-Kontak Developer
+---
 
-GitHub: @bzdev87
+Kontak & Sosial Media
+
+GitHub: https://github.com/bzdev87
 
 WhatsApp: +62 878-2594-6251
+
+Telegram (Opsional): @bzdev87tools
 
 
 
 ---
 
-bzdev87 by @bzdev87 - All-in-one Terminal Downloader Tool
+Tampilan Menu
 
+╭────────────────────────────────────────────────────────────────────╮
+│ >>> bzdev87 Social Media Downloader - All in One <<<               │
+│                                                                    │
+│ 1. Download Media                                                  │
+│ 2. Buka Folder Download                                            │
+│ 3. Info Developer                                                  │
+│ 4. Bantuan / Cara Pakai                                            │
+│ 5. Keluar                                                          │
+╰────────────────────────────────────────────────────────────────────╯
+
+
+---
+
+Catatan
+
+> Proyek ini dibuat untuk pembelajaran dan tujuan personal. Tidak diperkenankan digunakan untuk aktivitas ilegal atau komersial tanpa izin resmi.
+
+
+
+---
