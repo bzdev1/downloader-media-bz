@@ -1,4 +1,11 @@
-import os, sys, requests from rich.console import Console from rich.prompt import Prompt from rich.table import Table from rich.progress import Progress import yt_dlp
+import os
+import sys
+import requests
+from rich.console import Console
+from rich.prompt import Prompt
+from rich.table import Table
+from rich.progress import Progress
+import yt_dlp
 
 console = Console() LICENSE_FILE = "license.txt" DOWNLOAD_FOLDER = "/sdcard/Download" WHATSAPP_CONTACT = "https://wa.me/6287825946251"
 
