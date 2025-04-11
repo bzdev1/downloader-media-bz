@@ -1,71 +1,80 @@
-<h1 align="center">bzdev87 - Social Media Downloader</h1>
-<p align="center">
-  <b>All-in-One Tool | Tanpa API Key | Tampilan Keren | Full Termux Support</b>
-</p>
+# BZDev87 Sosmed Downloader
+**All-in-One Downloader** untuk video, musik (MP3), dan gambar dari berbagai platform sosial media.
+
+![Logo](https://img.shields.io/badge/Versi-Revisi--Lisensi--7--Hari-green)
+![Status](https://img.shields.io/badge/Status-Aktif-blue)
+![Author](https://img.shields.io/badge/Author-BZOneDev87-orange)
 
 
 
-## Screenshot Tampilan
+## Fitur Unggulan
+- **Download Video (MP4)**
+- **Download Audio (MP3)**
+- **Download Gambar/Thumbnail**
+- **Lisensi Otomatis 7 Hari**
+- **UI Menarik via [Rich Library](https://github.com/Textualize/rich)**
 
-╭────────────────────────────────────────────────────────────────────╮ │ ██████  ███████ ███████ ██████  ███████ ██    ██ ███████ ██    ██  │ │ ██   ██ ██      ██      ██   ██ ██       ██  ██  ██       ██  ██   │ │ ██   ██ █████   █████   ██████  █████     ████   █████     ████    │ │ ██   ██ ██      ██      ██      ██         ██    ██         ██     │ │ ██████  ███████ ███████ ██      ███████    ██    ███████    ██     │ ╰────────────────────────────────────────────────────────────────────╯
 
----
 
-## Fitur Utama
+## Cara Install & Jalankan
 
-- [x] **Download** dari TikTok, Instagram, YouTube, Facebook, dll
-- [x] **Story, Reels, Foto, Musik, Profil**
-- [x] Otomatis simpan ke folder `bzdownloader/`
-- [x] **Tanpa API Key**, full scraping
-- [x] Tampilan interaktif dan bergaya terminal hacker
-- [x] Support di **Termux Android & Linux**
-- [x] Sistem **Lisensi Developer & Publik**
-- [x] Lisensi rahasia tersimpan di `.data_lc87.txt`
-- [x] Jika lisensi salah → langsung diarahkan ke WhatsApp
-
----
-
-## Cara Install (Termux / Linux)
-
+### Di Termux:
 ```bash
-pkg update && pkg install python git -y
-git clone https://github.com/bzdev87/downloader-media-bz
+pkg update && pkg install python ffmpeg -y
+pip install yt-dlp rich
+
+Clone Repo:
+
+git clone https://github.com/username/downloader-media-bz
 cd downloader-media-bz
 python bzdev87.py
 
 
 
 
-Tentang Lisensi
+Aktivasi Lisensi
 
-Aplikasi ini hanya dapat digunakan jika memasukkan lisensi valid:
+Program ini membutuhkan lisensi aktif untuk digunakan. Saat pertama kali dijalankan, kamu akan diarahkan langsung ke WhatsApp untuk aktivasi.
 
-Lisensi Publik: akses terbatas
+Lisensi berlaku selama 7 Hari.
 
-Lisensi Developer: akses penuh & menu rahasia
-
-
-Jika tidak memiliki lisensi, hubungi WhatsApp developer: Klik untuk chat WhatsApp
-
-Lisensi tersimpan di file:
-
-.data_lc87.txt
-
-(Jangan di-publish, hanya developer yang tahu isinya)
-
-
-
-
-Developer Info
-
-Author: @bzdev87
-
-Project: downloader-media-bz
-
-WhatsApp Support: +62 878-2594-6251
+> WhatsApp Aktivasi: Klik untuk Hubungi
 
 
 
 
 
-> Jangan lupa kasih bintang (⭐) jika kamu suka projek ini!
+
+Screenshot
+
++---------------------------+
+| BZDev87 Sosmed Downloader |
+| MP4 | MP3 | IMG           |
++---------------------------+
+
+
+
+
+Kontak & Sosial Media
+
+Instagram: @dash1.id
+
+WhatsApp: Chat Sekarang
+
+Email: jawirjago0@gmail.com
+
+
+
+
+
+Lisensi
+
+Source code ini tersedia terbatas dan tidak open-source penuh. Untuk aktivasi lisensi dan kerja sama, silakan hubungi langsung pengembang.
+
+
+
+
+Author
+
+M. Akbar Rosyid — Pebisnis Muda & Developer
+@mlere_g4nk
