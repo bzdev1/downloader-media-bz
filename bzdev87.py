@@ -58,7 +58,69 @@ def show_banner():
 """
     console.print(Panel(banner, style="bold green"))
 
-# Tambahan fungsi utama (menu) bisa kamu tambah sendiri
+def progress_bar(d):
+    if d["status"] == "downloading":
+        percent = d.get("_percent_str", "0%").strip()
+        filename = d.get("filename", "file")
+        console.print(f"[yellow]Mengunduh:[/yellow] {percent} - {filename}", end="\r")
+    elif d["status"] == "finished":
+        console.print(f"\n[green]Selesai:[/green] {d['filename']}")
+
+def download_media(url, mode):
+    if not os.path.exists(DOWNLOAD_DIR):
+        os.makedirs(DOWNLOAD_DIR)
+
+    ydl_opts = {
+        "outtmpl": os.path.join(DOWNLOAD_DIR, "%(title)s.%(ext)s"),
+        "quiet": True,
+        "progress_hooks": [lambda d: progress_bar(d)],
+    }
+
+    if mode == "mp3":
+        ydl_opts["format"] = "bestaudio/best"
+        ydl_opts["postprocessors"] = [{
+            "key": "FFmpegExtractAudio",
+            "preferredcodec": "mp3",
+            "preferredquality": "192",
+        }]
+    elif mode == "img":
+        ydl_opts["skip_download"] = True
+        ydl_opts["writethumbnail"] = True
+    else:
+        ydl_opts["format"] = "best"
+
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([url])
+    except Exception as e:
+        console.print(f"[bold red]Gagal mendownload:[/bold red] {e}")
+
+def menu():
+    while True:
+        console.print("\n[bold cyan]Menu Pilihan:[/bold cyan]")
+        table = Table(title="Downloader Menu")
+        table.add_column("No", justify="center")
+        table.add_column("Fitur")
+        table.add_row("1", "Download Video (MP4)")
+        table.add_row("2", "Download Audio (MP3)")
+        table.add_row("3", "Download Gambar (Thumbnail)")
+        table.add_row("0", "Keluar")
+        console.print(table)
+
+        choice = Prompt.ask("Pilih opsi", choices=["1", "2", "3", "0"])
+        if choice == "0":
+            console.print("[bold red]Keluar...[/bold red]")
+            break
+
+        url = Prompt.ask("Masukkan URL")
+        if choice == "1":
+            download_media(url, "mp4")
+        elif choice == "2":
+            download_media(url, "mp3")
+        elif choice == "3":
+            download_media(url, "img")
+
 if __name__ == "__main__":
     check_license()
     show_banner()
+    menu()
