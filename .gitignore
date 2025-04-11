@@ -1,7 +1,9 @@
+# .gitignore
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.swp
+*.log
 licenses.txt
-.DS_Store
-.env
+*.db
