@@ -1,7 +1,4 @@
-#!/usr/bin/env python3
-import os
-import sys
-import requests
+import os, sys, re, requests
 from rich.console import Console
 from rich.prompt import Prompt
 from rich.table import Table
@@ -30,6 +27,9 @@ def create_download_folder():
     if not os.path.exists(DOWNLOAD_FOLDER):
         os.makedirs(DOWNLOAD_FOLDER)
 
+def sanitize_filename(title):
+    return re.sub(r'[\\/*?:"<>|]', "", title)
+
 def create_license(jenis):
     with open(LICENSE_FILE, "w") as f:
         f.write(f"LICENSE_TYPE={jenis}\n")
@@ -52,34 +52,45 @@ def download_media(urls, mode):
             console.print(f"[red]URL tidak valid:[/red] {url}")
             continue
 
-        output = os.path.join(DOWNLOAD_FOLDER, '%(title)s.%(ext)s')
+        ydl_opts = {
+            'outtmpl': os.path.join(DOWNLOAD_FOLDER, '%(title).80s.%(ext)s'),
+            'noplaylist': True,
+            'quiet': False,
+            'prefer_ffmpeg': True,
+            'progress_hooks': [hook],
+        }
+
         if mode == "Video":
-            ydl_opts = {
-                'outtmpl': output,
-                'format': 'bestvideo+bestaudio/best',
-                'progress_hooks': [hook],
-            }
+            ydl_opts.update({
+                'format': 'bv*+ba/best[ext=mp4]/best',
+                'merge_output_format': 'mp4',
+                'postprocessors': [{
+                    'key': 'FFmpegVideoConvertor',
+                    'preferedformat': 'mp4',
+                }]
+            })
+
         elif mode == "MP3":
-            ydl_opts = {
+            ydl_opts.update({
                 'format': 'bestaudio/best',
-                'outtmpl': output,
-                'progress_hooks': [hook],
                 'postprocessors': [{
                     'key': 'FFmpegExtractAudio',
                     'preferredcodec': 'mp3',
                     'preferredquality': '192',
-                }],
-            }
+                }]
+            })
+
         elif mode == "Gambar":
             try:
                 r = requests.get(url)
-                filename = os.path.join(DOWNLOAD_FOLDER, url.split("/")[-1])
+                filename = os.path.join(DOWNLOAD_FOLDER, sanitize_filename(url.split("/")[-1]))
                 with open(filename, "wb") as f:
                     f.write(r.content)
                 console.print(f"[bold green]Gambar disimpan ke:[/bold green] {filename}")
             except Exception as e:
                 console.print(f"[bold red]Gagal download gambar:[/bold red] {e}")
             continue
+
         elif mode == "Semua":
             for tipe in ["Video", "MP3", "Gambar"]:
                 download_media([url], tipe)
