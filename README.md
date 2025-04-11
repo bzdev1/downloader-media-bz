@@ -5,7 +5,7 @@
 ![Status](https://img.shields.io/badge/Status-Aktif-blue)
 ![Author](https://img.shields.io/badge/Author-BZOneDev87-orange)
 
-
+---
 
 ## Fitur Unggulan
 - **Download Video (MP4)**
@@ -14,7 +14,7 @@
 - **Lisensi Otomatis 7 Hari**
 - **UI Menarik via [Rich Library](https://github.com/Textualize/rich)**
 
-
+---
 
 ## Cara Install & Jalankan
 
@@ -30,7 +30,7 @@ cd downloader-media-bz
 python bzdev87.py
 
 
-
+---
 
 Aktivasi Lisensi
 
@@ -43,7 +43,7 @@ Lisensi berlaku selama 7 Hari.
 
 
 
-
+---
 
 Screenshot
 
@@ -53,7 +53,7 @@ Screenshot
 +---------------------------+
 
 
-
+---
 
 Kontak & Sosial Media
 
@@ -65,16 +65,15 @@ Email: jawirjago0@gmail.com
 
 
 
-
+---
 
 Lisensi
 
 Source code ini tersedia terbatas dan tidak open-source penuh. Untuk aktivasi lisensi dan kerja sama, silakan hubungi langsung pengembang.
 
 
-
+---
 
 Author
 
 M. Akbar Rosyid — Pebisnis Muda & Developer
-@mlere_g4nk
