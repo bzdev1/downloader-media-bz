@@ -7,7 +7,7 @@ import yt_dlp
 
 console = Console()
 LICENSE_FILE = "license.txt"
-DOWNLOAD_FOLDER = "downloads"
+DOWNLOAD_FOLDER = "/sdcard/Download"
 WHATSAPP_CONTACT = "https://wa.me/6287825946251"
 
 def show_banner():
