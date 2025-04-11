@@ -1,4 +1,0 @@
-# Public License Keys (limited access)
-BZDEV87-PUBLIC-123
-BZDEV87-FREEUSER-TRIAL
-BZDEV87-OPEN-ACCESS
