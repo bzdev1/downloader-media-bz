@@ -1,9 +1,9 @@
-# bzdev87.py - Downloader Sosmed All-in-One
+# bzdev87.py - Sosmed Downloader All-in-One
 # Author: BZOneDev87
-# Versi dengan Lisensi Publik & Developer + Animasi Pembuka
 
 import os
 import sys
+import mimetypes
 from time import sleep
 from datetime import datetime, timedelta
 from rich.console import Console
@@ -24,29 +24,20 @@ def create_download_folder():
     if not os.path.exists(DOWNLOAD_DIR):
         os.makedirs(DOWNLOAD_DIR)
 
-def animasi_pembuka():
-    teks = "Membuka BZDev87 Downloader..."
-    for i in teks:
-        console.print(i, end="", style="bold cyan", justify="center")
-        sleep(0.03)
-    print()
-
 def show_banner():
+    anim = "Membuka BZDev87 Downloader..."
+    for huruf in anim:
+        console.print(huruf, style="bold magenta", end="", justify="center")
+        sleep(0.05)
     banner = """[bold red]
 ██████  ███████ ███████ ██████  ███████ ██    ██ ███████ ██    ██ 
 ██   ██ ██      ██      ██   ██ ██       ██  ██  ██       ██  ██  
 ██   ██ █████   █████   ██████  █████     ████   █████     ████   
 ██   ██ ██      ██      ██      ██         ██    ██         ██    
 ██████  ███████ ███████ ██      ███████    ██    ███████    ██    
-[bold cyan]>>> bzdev87 Sosmed Downloader - MP4/MP3/IMG + Lisensi <<<[/bold cyan]
+[bold cyan]>>> Sosmed Downloader MP4/MP3/IMG | Lisensi 7 Hari <<<[/bold cyan]
 """
     console.print(Panel(banner, style="bold green"))
-
-def create_license(jenis="Publik"):
-    expire = datetime.now() + timedelta(days=LICENSE_DURATION_DAYS)
-    with open(LICENSE_FILE, "w") as f:
-        f.write(f"{expire.timestamp()}\nLICENSE_TYPE={jenis.lower()}")
-    console.print(f"[green]Lisensi {jenis} aktif sampai:[/green] {expire}")
 
 def check_license():
     if not os.path.exists(LICENSE_FILE):
@@ -57,35 +48,43 @@ def check_license():
         sys.exit()
 
     with open(LICENSE_FILE, "r") as f:
-        content = f.read().strip()
-
-        # Deteksi lisensi developer
+        content = f.read()
         if "LICENSE_TYPE=developer" in content:
             console.print("[bold cyan]Developer License aktif - akses penuh[/bold cyan]")
             return
-
         try:
-            expire_time = datetime.fromtimestamp(float(content))
+            timestamp = float(content.strip().split("\n")[0])
+            expire_time = datetime.fromtimestamp(timestamp)
             if datetime.now() > expire_time:
                 console.print("[bold red]Lisensi sudah kedaluwarsa![/bold red]")
                 os.remove(LICENSE_FILE)
                 sys.exit()
-        except ValueError:
-            console.print("[bold red]Format lisensi tidak valid![/bold red]")
-            try:
+        except Exception:
+            console.print("[bold red]Format lisensi tidak valid.[/bold red]")
+            if os.path.exists(LICENSE_FILE):
                 os.remove(LICENSE_FILE)
-            except:
-                pass
             sys.exit()
+
+def create_license(jenis):
+    expire = datetime.now() + timedelta(days=LICENSE_DURATION_DAYS)
+    with open(LICENSE_FILE, "w") as f:
+        f.write(str(expire.timestamp()) + "\n")
+        if jenis.lower() == "developer":
+            f.write("LICENSE_TYPE=developer\n")
+        else:
+            f.write("LICENSE_TYPE=public\n")
+    console.print(f"[green]Lisensi {jenis} aktif hingga:[/green] {expire}")
 
 def download_media(url):
     ydl_opts = {
-        'outtmpl': f'{DOWNLOAD_DIR}/%(title)s.%(ext)s',
-        'progress_hooks': [hook],
+        'outtmpl': os.path.join(DOWNLOAD_DIR, '%(title)s.%(ext)s'),
         'quiet': True,
+        'progress_hooks': [hook],
+        'noplaylist': True,
+        'ignoreerrors': True,
     }
-    with Progress(SpinnerColumn(), TextColumn("[progress.description]{task.description}"),
-                  BarColumn(), transient=True) as progress:
+
+    with Progress(SpinnerColumn(), TextColumn("[progress.description]{task.description}"), BarColumn()) as progress:
         task = progress.add_task("[cyan]Mendownload media...", total=None)
         try:
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -102,33 +101,19 @@ def menu():
     table = Table(title="[bold cyan]MENU UTAMA[/bold cyan]", show_header=True, header_style="bold magenta")
     table.add_column("No", style="bold yellow")
     table.add_column("Aksi", style="bold white")
-    table.add_row("1", "Download Media")
+    table.add_row("1", "Download Media (Auto Deteksi)")
     table.add_row("2", "Buat Lisensi Baru")
-    table.add_row("3", "Info Lisensi")
-    table.add_row("4", "Keluar")
+    table.add_row("3", "Keluar")
     console.print(table)
 
-def info_lisensi():
-    with open(LICENSE_FILE, "r") as f:
-        lines = f.read().strip().split("\n")
-        waktu = datetime.fromtimestamp(float(lines[0]))
-        tipe = "Publik"
-        for l in lines:
-            if l.startswith("LICENSE_TYPE="):
-                tipe = l.split("=")[-1].capitalize()
-        console.print(f"[bold cyan]Tipe Lisensi:[/bold cyan] {tipe}")
-        console.print(f"[bold cyan]Aktif Sampai:[/bold cyan] {waktu}")
-
 def run():
-    animasi_pembuka()
     check_license()
-    create_download_folder()
     show_banner()
+    create_download_folder()
 
     while True:
         menu()
-        pilihan = Prompt.ask("[bold yellow]Pilih opsi[/bold yellow]", choices=["1", "2", "3", "4"])
-
+        pilihan = Prompt.ask("[bold yellow]Pilih opsi[/bold yellow]", choices=["1", "2", "3"])
         if pilihan == "1":
             url = Prompt.ask("[cyan]Masukkan URL media[/cyan]")
             download_media(url)
@@ -136,9 +121,7 @@ def run():
             jenis = Prompt.ask("Jenis lisensi (Publik/Developer)", choices=["Publik", "Developer"])
             create_license(jenis)
         elif pilihan == "3":
-            info_lisensi()
-        elif pilihan == "4":
-            console.print("[bold magenta]Sampai jumpa![/bold magenta]")
+            console.print("[bold magenta]Terima kasih telah menggunakan![/bold magenta]")
             break
 
 if __name__ == "__main__":
