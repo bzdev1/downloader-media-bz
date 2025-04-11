@@ -1,79 +1,32 @@
-# BZDev87 Sosmed Downloader
-**All-in-One Downloader** untuk video, musik (MP3), dan gambar dari berbagai platform sosial media.
+# bzdev87 - Sosial Media Downloader All-in-One
 
-![Logo](https://img.shields.io/badge/Versi-Revisi--Lisensi--7--Hari-green)
-![Status](https://img.shields.io/badge/Status-Aktif-blue)
-![Author](https://img.shields.io/badge/Author-BZOneDev87-orange)
+[![Made with Python](https://img.shields.io/badge/Made%20with-Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-Custom-green?style=for-the-badge)](#lisensi)
+[![Termux Ready](https://img.shields.io/badge/Termux-Ready-00ADD8?style=for-the-badge&logo=gnu-bash&logoColor=white)](https://termux.dev/)
+
+## Tentang Proyek
+`bzdev87` adalah downloader media dari berbagai platform sosial media (YouTube, TikTok, Instagram, Facebook, dll.) yang berjalan langsung di **Termux**, lengkap dengan fitur:
+- Download video, gambar, dan MP3
+- UI terminal interaktif (dengan `rich`)
+- Sistem **Lisensi 7 Hari**
+- Aktivasi lisensi langsung ke WhatsApp Developer
 
 ---
 
 ## Fitur Unggulan
-- **Download Video (MP4)**
-- **Download Audio (MP3)**
-- **Download Gambar/Thumbnail**
-- **Lisensi Otomatis 7 Hari**
-- **UI Menarik via [Rich Library](https://github.com/Textualize/rich)**
+
+- [x] Download YouTube MP4 & MP3
+- [x] Download video dari TikTok, Instagram, Facebook, Twitter
+- [x] Download gambar
+- [x] Progress bar animasi (dengan `rich`)
+- [x] Validasi lisensi otomatis
+- [x] Termux-ready & ringan
 
 ---
 
-## Cara Install & Jalankan
+## Cara Install
 
-### Di Termux:
 ```bash
-pkg update && pkg install python ffmpeg -y
-pip install yt-dlp rich
-
-Clone Repo:
-
-git clone https://github.com/username/downloader-media-bz
-cd downloader-media-bz
+pkg install python git -y
+pip install -r requirements.txt
 python bzdev87.py
-
-
----
-
-Aktivasi Lisensi
-
-Program ini membutuhkan lisensi aktif untuk digunakan. Saat pertama kali dijalankan, kamu akan diarahkan langsung ke WhatsApp untuk aktivasi.
-
-Lisensi berlaku selama 7 Hari.
-
-> WhatsApp Aktivasi: Klik untuk Hubungi
-
-
-
-
----
-
-Screenshot
-
-+---------------------------+
-| BZDev87 Sosmed Downloader |
-| MP4 | MP3 | IMG           |
-+---------------------------+
-
-
----
-
-Kontak & Sosial Media
-
-Instagram: @dash1.id
-
-WhatsApp: Chat Sekarang
-
-Email: jawirjago0@gmail.com
-
-
-
----
-
-Lisensi
-
-Source code ini tersedia terbatas dan tidak open-source penuh. Untuk aktivasi lisensi dan kerja sama, silakan hubungi langsung pengembang.
-
-
----
-
-Author
-
-M. Akbar Rosyid — Pebisnis Muda & Developer
