@@ -57,27 +57,25 @@ def check_license():
         sys.exit()
 
     with open(LICENSE_FILE, "r") as f:
-        content = f.read()
-        try:
-            lines = content.strip().split("\n")
-            timestamp = float(lines[0])
-            license_type = "publik"
-            for line in lines:
-                if line.startswith("LICENSE_TYPE="):
-                    license_type = line.split("=")[-1]
+        content = f.read().strip()
 
-            expire_time = datetime.fromtimestamp(timestamp)
+        # Deteksi lisensi developer
+        if "LICENSE_TYPE=developer" in content:
+            console.print("[bold cyan]Developer License aktif - akses penuh[/bold cyan]")
+            return
+
+        try:
+            expire_time = datetime.fromtimestamp(float(content))
             if datetime.now() > expire_time:
                 console.print("[bold red]Lisensi sudah kedaluwarsa![/bold red]")
                 os.remove(LICENSE_FILE)
                 sys.exit()
-            if license_type == "developer":
-                console.print("[bold cyan]Developer License aktif - akses penuh[/bold cyan]")
-            else:
-                console.print("[bold green]Lisensi Publik aktif[/bold green]")
-        except:
-            console.print("[red]Format lisensi tidak valid.[/red]")
-            os.remove(LICENSE_FILE)
+        except ValueError:
+            console.print("[bold red]Format lisensi tidak valid![/bold red]")
+            try:
+                os.remove(LICENSE_FILE)
+            except:
+                pass
             sys.exit()
 
 def download_media(url):
