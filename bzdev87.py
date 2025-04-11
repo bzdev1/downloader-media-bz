@@ -1,79 +1,96 @@
-import os
-import time
-import sys
-import subprocess
+import os import sys from time import sleep, time from datetime import datetime, timedelta from rich.console import Console from rich.panel import Panel from rich.prompt import Prompt from rich.progress import Progress, SpinnerColumn, BarColumn, TextColumn from rich.table import Table import yt_dlp
 
-Lokasi file lisensi dan log
+console = Console() DOWNLOAD_DIR = "/storage/emulated/0/bzdown" LICENSE_FILE = "licenses.txt" LICENSE_DURATION_DAYS = 7 WHATSAPP_CONTACT = "https://wa.me/6287825946251"
 
-LICENSE_FILE = "licenses.txt" LOG_FILE = "users_log.txt" DATA_FILE = ".data_lc87.txt"
+def show_banner(): banner = """ [bold red] ██████  ███████ ███████ ██████  ███████ ██    ██ ███████ ██    ██  ██   ██ ██      ██      ██   ██ ██       ██  ██  ██       ██  ██   ██   ██ █████   █████   ██████  █████     ████   █████     ████   ██   ██ ██      ██      ██      ██         ██    ██         ██  
+██████  ███████ ███████ ██      ███████    ██    ███████    ██ 
+[/bold red]
+[bold cyan]>>> bzdev87 Social Media Downloader - All in One <<<[/bold cyan]
+""" console.print(Panel(banner, style="bold green"))
 
-Lisensi valid (RAHASIA)
+def create_download_folder(): if not os.path.exists(DOWNLOAD_DIR): os.makedirs(DOWNLOAD_DIR) console.print(f"[green]Folder dibuat:[/green] {DOWNLOAD_DIR}")
 
-VALID_LICENSES = [ "LC87-X2VZ-9021-HIDENKEY", "LC87-PUB-2025-DEMO" ]
+def check_license(): if not os.path.exists(LICENSE_FILE): activate_license() with open(LICENSE_FILE, 'r') as f: start_time = float(f.read().strip()) if time() - start_time > LICENSE_DURATION_DAYS * 86400: console.print("[bold red]Lisensi Anda sudah kadaluarsa.[/bold red]") console.print(f"[bold yellow]Silakan hubungi admin untuk aktivasi:[/bold yellow] {WHATSAPP_CONTACT}") sys.exit()
 
-Batasan lisensi publik
+def activate_license(): with open(LICENSE_FILE, 'w') as f: f.write(str(time())) console.print("[bold green]Lisensi aktif selama 7 hari.[/bold green]")
 
-LIMIT_PUB = 3
+def menu(): table = Table(title="[bold cyan]MENU UTAMA[/bold cyan]", show_header=True, header_style="bold magenta") table.add_column("No", style="bold yellow") table.add_column("Aksi", style="bold white") table.add_row("1", "Download Video") table.add_row("2", "Download MP3") table.add_row("3", "Download Gambar") table.add_row("4", "Buka Folder Download") table.add_row("5", "Info Developer") table.add_row("6", "Bantuan / Cara Pakai") table.add_row("7", "Keluar") console.print(table)
 
-Fungsi validasi lisensi
+def download_media(url, media_type): ext_map = { 'video': '%(title)s.%(ext)s', 'audio': '%(title)s.%(ext)s', 'image': '%(title)s.%(ext)s' } format_map = { 'video': 'best', 'audio': 'bestaudio', 'image': 'best' } ydl_opts = { 'outtmpl': os.path.join(DOWNLOAD_DIR, ext_map[media_type]), 'format': format_map[media_type], 'noplaylist': True, 'quiet': True, 'no_warnings': True, 'progress_hooks': [hook], } if media_type == 'audio': ydl_opts['postprocessors'] = [{ 'key': 'FFmpegExtractAudio', 'preferredcodec': 'mp3', 'preferredquality': '192', }]
 
-def validasi_lisensi(): if not os.path.exists(LICENSE_FILE): print("[!] File lisensi tidak ditemukan.") return False with open(LICENSE_FILE) as f: license_key = f.read().strip() if license_key in VALID_LICENSES: if license_key == "LC87-PUB-2025-DEMO": return "PUB" return True return False
+try:
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        ydl.download([url])
+except Exception as e:
+    console.print(f"[bold red]Gagal download:[/bold red] {e}")
 
-Fungsi untuk mencatat pengguna yang mengakses
+def hook(d): if d['status'] == 'finished': console.print(f"\n[bold green]Selesai:[/bold green] {d['filename']}")
 
-def log_pengguna(): user = os.getenv("USER") or os.getenv("USERNAME") or "unknown" with open(LOG_FILE, "a") as f: f.write(f"{user} | {time.ctime()}\n")
+def info_dev(): console.print(Panel(f""" [bold cyan]Developer:[/bold cyan] BZOneDev87 [bold cyan]Github:[/bold cyan] github.com/bzonedev87 [bold cyan]Tools:[/bold cyan] yt-dlp + rich + Termux Ready """, title="INFO DEVELOPER", style="bold green"))
 
-Menu utama def
+def bantuan(): console.print(Panel(""" [bold yellow]Cara pakai:[/bold yellow]
 
-def menu(): os.system("clear") print(""" ╭────────────────────────────────────────────────────────────────────╮ │                                                                    │ │ ██████  ███████ ███████ ██████  ███████ ██    ██ ███████ ██    ██  │ │ ██   ██ ██      ██      ██   ██ ██       ██  ██  ██       ██  ██   │ │ ██   ██ █████   █████   ██████  █████     ████   █████     ████    │ │ ██   ██ ██      ██      ██      ██         ██    ██         ██     │ │ ██████  ███████ ███████ ██      ███████    ██    ███████    ██     │ │                                                                    │ │ >>> bzdev87 Social Media Downloader - All in One <<<               │ ╰────────────────────────────────────────────────────────────────────╯ """) print(""" MENU UTAMA ┏━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓ ┃ No ┃ Aksi                              ┃ ┡━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩ │ 1  │ Download Media Sosial             │ │ 2  │ Buka Folder Download              │ │ 3  │ Info Developer                    │ │ 4  │ Bantuan / Cara Pakai              │ │ 5  │ Developer Mode (Lisensi Khusus)   │ │ 6  │ Keluar                            │ └────┴───────────────────────────────────┘ """) return input("Masukkan pilihan [1/2/3/4/5/6]: ")
+1. Pilih menu yang tersedia
 
-Developer khusus
 
-def developer_mode(): print("\n[+] Developer Mode AKTIF") print("[+] Lisensi: TERDAFTAR") print("[+] WA Developer: wa.me/6287825946251") print("[+] Daftar pengguna tersimpan di:", LOG_FILE) print("\n[+] Fitur:") print(" - Monitor Pengguna") print(" - Export data lisensi") print(" - Reset Batas Publik")
+2. Masukkan URL dari media:
 
-Fungsi utama
+YouTube
 
-if name == "main": status = validasi_lisensi()
+TikTok
 
-if status == False:
-    print("[!] Lisensi tidak valid.")
-    print("[!] Hubungi WA untuk akses: wa.me/6287825946251")
-    sys.exit()
-elif status == "PUB":
-    # Batas publik
-    if not os.path.exists(DATA_FILE):
-        with open(DATA_FILE, "w") as f:
-            f.write("1")
-    else:
-        with open(DATA_FILE) as f:
-            count = int(f.read().strip())
-        if count >= LIMIT_PUB:
-            print("[!] Batas penggunaan publik tercapai.")
-            print("[!] Upgrade lisensi ke full access: wa.me/6287825946251")
-            sys.exit()
-        else:
-            with open(DATA_FILE, "w") as f:
-                f.write(str(count + 1))
+Instagram
 
-log_pengguna()
+Facebook
+
+Twitter / X
+
+dan lainnya
+
+
+
+3. File otomatis tersimpan di: ~/bzdown
+
+
+
+Gunakan menu 'Buka Folder' untuk akses file hasil download. """, title="BANTUAN", style="bold blue"))
+
+def run(): show_banner() create_download_folder() check_license()
 
 while True:
-    pilihan = menu()
-    if pilihan == "1":
-        print("[>] Fitur download akan ditambahkan.")
-    elif pilihan == "2":
-        print("[>] Buka folder download...")
-        os.system("xdg-open bzdownloader")
-    elif pilihan == "3":
-        print("[>] Developer: github.com/bzdev87")
+    menu()
+    pilihan = Prompt.ask("[bold yellow]Masukkan pilihan[/bold yellow]", choices=["1", "2", "3", "4", "5", "6", "7"])
+
+    if pilihan in ["1", "2", "3"]:
+        url = Prompt.ask("[cyan]Masukkan URL Media[/cyan]")
+        jenis = "video" if pilihan == "1" else "audio" if pilihan == "2" else "image"
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            BarColumn(),
+            TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
+            transient=True,
+        ) as progress:
+            task = progress.add_task("[green]Mendownload...", total=None)
+            download_media(url, jenis)
+            progress.update(task, completed=100)
+
     elif pilihan == "4":
-        print("[>] Cara pakai: Masukkan link media dari IG, TikTok, dll")
+        console.print(f"[blue]Folder penyimpanan media:[/blue] {DOWNLOAD_DIR}")
+        if sys.platform.startswith("linux") or sys.platform == "darwin":
+            os.system(f"xdg-open {DOWNLOAD_DIR} || termux-open {DOWNLOAD_DIR}")
+        elif sys.platform == "win32":
+            os.startfile(DOWNLOAD_DIR)
+
     elif pilihan == "5":
-        developer_mode()
+        info_dev()
+
     elif pilihan == "6":
-        print("[!] Keluar...")
+        bantuan()
+
+    elif pilihan == "7":
+        console.print("[bold magenta]Sampai jumpa dan selamat mendownload![/bold magenta]")
         break
-    else:
-        print("[!] Pilihan tidak valid.")
-    input("\nTekan ENTER untuk kembali ke menu...")
+
+if name == "main": run()
 
